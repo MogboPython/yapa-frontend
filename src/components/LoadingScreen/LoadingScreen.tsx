@@ -1,7 +1,11 @@
 import React from 'react';
 import './LoadingScreen.css';
 
-const LoadingScreen = () => {
+interface LoadingScreenProps {
+  // Add any props if needed
+}
+
+const LoadingScreen: React.FC<LoadingScreenProps> = () => {
   return (
     <div className="loading-screen">
       <div className="logo-container">
