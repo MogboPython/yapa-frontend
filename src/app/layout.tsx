@@ -1,16 +1,21 @@
 import type { Metadata } from 'next'
 import './globals.css'
 
+import { headers } from "next/headers";
+import ContextProvider from '@/app/context';
+
 export const metadata: Metadata = {
   title: 'Yapa - Yap to your favourite people',
   description: 'A social messaging app with wallet integration',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode
-}) {
+}>) {
+  const cookies = (await headers()).get('cookie')
+  
   return (
     <html lang="en">
       <head>
@@ -28,7 +33,9 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <ContextProvider cookies={cookies}>{children}</ContextProvider>
+      </body>
     </html>
   )
 }

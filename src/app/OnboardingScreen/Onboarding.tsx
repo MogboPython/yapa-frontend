@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import AvatarGrid from './AvatarGrid';
+import { useAppKit } from '@reown/appkit/react'
 
 export const LoadingScreen: React.FC = () => {
   return (
@@ -17,38 +18,7 @@ export const LoadingScreen: React.FC = () => {
 };
 
 export const OnboardingScreen: React.FC = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string>('');
-
-  const handleCreateAccount = async () => {
-    setIsLoading(true);
-    setError('');
-    
-    try {
-      console.log('Connecting wallet...');
-      await new Promise(resolve => setTimeout(resolve, 1500));
-    } catch (err) {
-      setError('Failed to connect wallet. Please try again.');
-      console.error('Wallet connection error:', err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleRestore = async () => {
-    setIsLoading(true);
-    setError('');
-    
-    try {
-      console.log('Restoring account...');
-      await new Promise(resolve => setTimeout(resolve, 1500));
-    } catch (err) {
-      setError('Failed to restore account. Please try again.');
-      console.error('Account restoration error:', err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { open } = useAppKit()
 
   return (
     <div className=" h-screen w-screen md:w-full lg:w-[70%] flex flex-col items-center gap-4 pb-4">
@@ -57,27 +27,14 @@ export const OnboardingScreen: React.FC = () => {
       </h1>
       
       <AvatarGrid />
-
-      {error && <p className="error-message" style={{ color: 'red', marginBottom: '10px' }}>{error}</p>}
       
       <button 
         className="bg-[#0067E0] w-[90%] mx-auto md:w-[90%] lg:w-[87%] lg:ml-0 lg:mr-auto py-3 rounded-[4px] cursor-pointer hover:opacity-60 transition ease-in-out duration-300" 
-        onClick={handleCreateAccount}
-        disabled={isLoading}
+        onClick={() => open()}
       >
        <p className='tracking-[-2%] text-base text-[#F6FBFF]'>
-         {isLoading ? 'Connecting...' : 'Connect your account'}
+         Connect your account
         </p>
-      </button>
-      
-      <button 
-        className="cursor-pointer w-[90%] mx-auto md:w-[90%] lg:w-[87%] lg:ml-0 lg:mr-auto"
-        onClick={handleRestore}
-        disabled={isLoading}
-      >
-       <p className='text-[#424F63] tracking-[-2%] text-base'>
-        Restore
-       </p>
       </button>
     </div>
   );
