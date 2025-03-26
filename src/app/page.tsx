@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import LoadingScreen from '@/components/LoadingScreen/LoadingScreen';
-import OnboardingScreen from '@/components/OnboardingScreen/OnboardingScreen';
+import { LoadingScreen, OnboardingScreen } from './OnboardingScreen/Onboarding';
 import './homepage.css';
 
 export default function HomePage() {
@@ -10,6 +9,9 @@ export default function HomePage() {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   
   useEffect(() => {
+     // Prevent body from scrolling
+     document.body.style.overflow = 'hidden';
+
     // Check if mobile on initial render
     setIsMobile(window.innerWidth <= 768);
     
@@ -27,6 +29,7 @@ export default function HomePage() {
     return () => {
       clearTimeout(timer);
       window.removeEventListener('resize', handleResize);
+      document.body.style.overflow = '';
     };
   }, []);
   
@@ -36,23 +39,20 @@ export default function HomePage() {
   }
   
   // Web view (side by side)
-  if (!isMobile) {
-    return (
-      <div className="home-page split-view">
-        <div className="left-panel">
-          <LoadingScreen />
-        </div>
-        <div className="right-panel">
-          <OnboardingScreen />
-        </div>
-      </div>
-    );
-  }
-  
-  // Mobile view after loading
   return (
-    <div className="home-page mobile-view">
-      <OnboardingScreen />
+    <div className="h-screen w-full overflow-hidden md:flex">
+      {!isMobile ? (
+        <>
+          <div className="flex-1 h-full">
+            <LoadingScreen />
+          </div>
+          <div className="flex-1 h-full">
+            <OnboardingScreen />
+          </div>
+        </>
+      ) : (
+        <OnboardingScreen />
+      )}
     </div>
   );
 }
