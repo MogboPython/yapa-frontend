@@ -66,7 +66,7 @@ export const OnboardingScreen: React.FC = () => {
         disabled={isLoading}
       >
        <p className='tracking-[-2%] text-base text-[#F6FBFF]'>
-         {isLoading ? 'Connecting...' : 'Create an account'}
+         {isLoading ? 'Connecting...' : 'Connect your account'}
         </p>
       </button>
       
